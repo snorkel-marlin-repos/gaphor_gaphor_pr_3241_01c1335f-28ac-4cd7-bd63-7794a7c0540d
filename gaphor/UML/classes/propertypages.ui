@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkBox" id="association-direction-editor">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">Show Direction</property>
+            <property name="hexpand">yes</property>
+            <property name="halign">start</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton">
+            <property name="halign">end</property>
+            <property name="focusable">1</property>
+            <property name="receives-default">1</property>
+            <property name="tooltip-text" translatable="yes">Invert direction</property>
+            <signal name="clicked" handler="invert-direction-changed" swapped="no"/>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">object-flip-horizontal-symbolic</property>
+              </object>
+            </child>
+            <style>
+              <class name="flat"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSwitch" id="show-direction">
+            <property name="focusable">1</property>
+            <property name="valign">center</property>
+            <property name="halign">end</property>
+            <signal name="notify::active" handler="show-direction-changed" swapped="no"/>
+          </object>
+        </child>
+      </object>
+    </child>
+    <style>
+      <class name="propertypage"/>
+    </style>
+  </object>
+
+  <object class="GtkBox" id="association-editor">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <child>
+          <object class="GtkLabel" id="head-title">
+            <property name="label" translatable="yes">Head:</property>
+            <property name="xalign">0</property>
+            <property name="hexpand">1</property>
+            <style>
+              <class name="title"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="head-info-icon">
+            <property name="halign">end</property>
+            <property name="valign">end</property>
+            <property name="label" translatable="yes">ⓘ Help</property>
+            <child>
+              <object class="GtkPopover" id="head-info">
+                <property name="visible">0</property>
+                <property name="position">top</property>
+                <property name="child">
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Add and edit association ends according to UML syntax.
+
+  • &lt;tt&gt;+ name&lt;/tt&gt;
+  • &lt;tt&gt;+ name[1]&lt;/tt&gt;
+  • &lt;tt&gt;- name[1..2]&lt;/tt&gt;
+  • &lt;tt&gt;1..2&lt;/tt&gt;
+  • &lt;tt&gt;- [1..2]&lt;/tt&gt;
+
+Press &lt;b&gt;Enter&lt;/b&gt; to edit, &lt;b&gt;Backspace&lt;/b&gt;/&lt;b&gt;Delete&lt;/b&gt; to remove items.
+Use &lt;b&gt;-&lt;/b&gt;/&lt;b&gt;=&lt;/b&gt; to move items up or down.</property>
+                    <property name="use-markup">1</property>
+                    <style>
+                      <class name="info-popover"/>
+                    </style>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <style>
+              <class name="info"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkEntry" id="head-name">
+        <property name="focusable">1</property>
+        <signal name="changed" handler="head-name-changed" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkDropDown" id="head-navigation">
+        <property name="model">
+          <object class="GtkStringList">
+            <items>
+              <item translatable="yes">Unknown navigation</item>
+              <item translatable="yes">Not navigable</item>
+              <item translatable="yes">Navigable</item>
+            </items>
+          </object>
+        </property>
+        <signal name="notify::selected" handler="head-navigation-changed" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkDropDown" id="head-aggregation">
+        <property name="model">
+          <object class="GtkStringList">
+            <items>
+              <item translatable="yes">No aggregation</item>
+              <item translatable="yes">Shared</item>
+              <item translatable="yes">Composite</item>
+            </items>
+          </object>
+        </property>
+        <signal name="notify::selected" handler="head-aggregation-changed" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkFrame" id="head-stereotype-frame">
+        <property name="child">
+          <object class="GtkColumnView" id="head-stereotype-list">
+            <property name="height-request">112</property>
+            <property name="focusable">1</property>
+            <style>
+              <class name="data-table"/>
+            </style>
+            <child>
+              <object class="GtkColumnViewColumn">
+                <property name="title" translatable="yes">Stereotypes</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkColumnViewColumn">
+                <property name="title" translatable="yes">Values</property>
+                <property name="expand">1</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkEventControllerKey">
+                <signal name="key-pressed" handler="head-stereotype-key-pressed" />
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <child>
+          <object class="GtkLabel" id="tail-title">
+            <property name="label" translatable="yes">Tail:</property>
+            <property name="xalign">0</property>
+            <property name="hexpand">1</property>
+            <style>
+              <class name="title"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="tail-info-icon">
+            <property name="halign">end</property>
+            <property name="valign">end</property>
+            <property name="label" translatable="yes">ⓘ Help</property>
+            <child>
+              <object class="GtkPopover" id="tail-info">
+                <property name="visible">0</property>
+                <property name="position">top</property>
+                <property name="child">
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Add and edit association ends according to UML syntax.
+
+  • &lt;tt&gt;+ name&lt;/tt&gt;
+  • &lt;tt&gt;+ name[1]&lt;/tt&gt;
+  • &lt;tt&gt;- name[1..2]&lt;/tt&gt;
+  • &lt;tt&gt;1..2&lt;/tt&gt;
+  • &lt;tt&gt;- [1..2]&lt;/tt&gt;
+
+Press &lt;b&gt;Enter&lt;/b&gt; to edit, &lt;b&gt;Backspace&lt;/b&gt;/&lt;b&gt;Delete&lt;/b&gt; to remove items.
+Use &lt;b&gt;-&lt;/b&gt;/&lt;b&gt;=&lt;/b&gt; to move items up or down.</property>
+                    <property name="use-markup">1</property>
+                    <style>
+                      <class name="info-popover"/>
+                    </style>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <style>
+              <class name="info"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkEntry" id="tail-name">
+        <property name="focusable">1</property>
+        <signal name="changed" handler="tail-name-changed" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkDropDown" id="tail-navigation">
+        <property name="model">
+          <object class="GtkStringList">
+            <items>
+              <item translatable="yes">Unknown navigation</item>
+              <item translatable="yes">Not navigable</item>
+              <item translatable="yes">Navigable</item>
+            </items>
+          </object>
+        </property>
+        <signal name="notify::selected" handler="tail-navigation-changed" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkDropDown" id="tail-aggregation">
+        <property name="model">
+          <object class="GtkStringList">
+            <items>
+              <item translatable="yes">No aggregation</item>
+              <item translatable="yes">Shared</item>
+              <item translatable="yes">Composite</item>
+            </items>
+          </object>
+        </property>
+        <signal name="notify::selected" handler="tail-aggregation-changed" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkFrame" id="tail-stereotype-frame">
+        <property name="child">
+          <object class="GtkColumnView" id="tail-stereotype-list">
+            <property name="height-request">112</property>
+            <property name="focusable">1</property>
+            <style>
+              <class name="data-table"/>
+            </style>
+            <child>
+              <object class="GtkColumnViewColumn">
+                <property name="title" translatable="yes">Stereotypes</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkColumnViewColumn">
+                <property name="title" translatable="yes">Values</property>
+                <property name="expand">1</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkEventControllerKey">
+                <signal name="key-pressed" handler="tail-stereotype-key-pressed" />
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+    <style>
+      <class name="propertypage"/>
+    </style>
+  </object>
+
+  <object class="GtkBox" id="attributes-editor">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">Attributes</property>
+            <property name="xalign">0</property>
+            <property name="hexpand">1</property>
+            <style>
+              <class name="title"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="attributes-info-icon">
+            <property name="halign">end</property>
+            <property name="valign">end</property>
+            <property name="label" translatable="yes">ⓘ Help</property>
+
+            <child>
+              <object class="GtkPopover" id="attributes-info">
+                <property name="visible">0</property>
+                <property name="position">top</property>
+                <property name="child">
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Add and edit class attributes according to UML syntax.
+
+  • &lt;tt&gt;attr&lt;/tt&gt; (name, defaults to public visibility)
+  • &lt;tt&gt;+ attr: int&lt;/tt&gt; (public with type)
+  • &lt;tt&gt;+ attr: int[0..1]&lt;/tt&gt; (public, type, and multiplicity)
+  • &lt;tt&gt;+ attr: int | bool&lt;/tt&gt; (public, union type)
+  • &lt;tt&gt;# /attr: int # a note&lt;/tt&gt; (protected, derived, with remark)
+
+Press &lt;b&gt;Enter&lt;/b&gt; to edit, &lt;b&gt;Backspace&lt;/b&gt;/&lt;b&gt;Delete&lt;/b&gt; to remove items.
+Use &lt;b&gt;-&lt;/b&gt;/&lt;b&gt;=&lt;/b&gt; to move items up or down.</property>
+                    <property name="use-markup">1</property>
+                    <style>
+                      <class name="info-popover"/>
+                    </style>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <style>
+              <class name="info"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkFrame">
+        <property name="child">
+          <object class="GtkColumnView" id="attributes-list">
+            <property name="height-request">112</property>
+            <property name="focusable">1</property>
+            <style>
+              <class name="data-table"/>
+            </style>
+            <child>
+              <object class="GtkColumnViewColumn">
+                <property name="title" translatable="yes">Attributes</property>
+                <property name="expand">1</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkColumnViewColumn">
+                <property name="title" translatable="yes">Static</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkEventControllerKey">
+                <signal name="key-pressed" handler="attributes-key-pressed" />
+              </object>
+            </child>
+            <signal name="activate" handler="attributes-activated" />
+          </object>
+        </property>
+      </object>
+    </child>
+    <style>
+      <class name="propertypage"/>
+    </style>
+  </object>
+
+  <object class="GtkBox" id="show-attributes-editor">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">Show Attributes</property>
+            <property name="halign">start</property>
+            <property name="hexpand">yes</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSwitch" id="show-attributes">
+            <property name="focusable">1</property>
+            <signal name="notify::active" handler="show-attributes-changed" swapped="no"/>
+          </object>
+        </child>
+      </object>
+    </child>
+    <style>
+      <class name="propertypage"/>
+    </style>
+  </object>
+
+  <object class="GtkBox" id="classifier-editor">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">Abstract</property>
+            <property name="halign">start</property>
+            <property name="hexpand">yes</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSwitch" id="abstract">
+            <property name="focusable">1</property>
+            <signal name="notify::active" handler="abstract-changed" swapped="no"/>
+          </object>
+        </child>
+      </object>
+    </child>
+    <style>
+      <class name="propertypage"/>
+    </style>
+  </object>
+
+  <object class="GtkBox" id="dependency-editor">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkLabel">
+        <property name="label" translatable="yes">Dependency type</property>
+        <property name="xalign">0</property>
+        <style>
+          <class name="title"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">Automatic</property>
+            <property name="halign">start</property>
+            <property name="hexpand">yes</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSwitch" id="automatic">
+            <property name="focusable">1</property>
+            <signal name="notify::active" handler="automatic-changed" swapped="no"/>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkDropDown" id="dependency-dropdown">
+        <property name="model">
+          <object class="GtkStringList">
+            <items>
+              <item translatable="yes">Dependency</item>
+              <item translatable="yes">Usage</item>
+              <item translatable="yes">Realization</item>
+              <item translatable="yes">Implementation</item>
+            </items>
+          </object>
+        </property>
+        <signal name="notify::selected" handler="dependency-type-changed" swapped="no"/>
+      </object>
+    </child>
+    <style>
+      <class name="propertypage"/>
+    </style>
+  </object>
+
+  <object class="GtkBox" id="interface-editor">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <child>
+          <object class="GtkLabel">
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">Folded</property>
+            <property name="halign">start</property>
+            <property name="hexpand">yes</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSwitch" id="folded">
+            <property name="focusable">1</property>
+            <signal name="notify::active" handler="folded-changed" swapped="no"/>
+          </object>
+        </child>
+      </object>
+    </child>
+    <style>
+      <class name="propertypage"/>
+    </style>
+  </object>
+
+  <object class="GtkBox" id="operations-editor">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">Operations</property>
+            <property name="xalign">0</property>
+            <property name="hexpand">1</property>
+            <style>
+              <class name="title"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="operations-info-icon">
+            <property name="halign">end</property>
+            <property name="valign">end</property>
+            <property name="label" translatable="yes">ⓘ Help</property>
+            <child>
+              <object class="GtkPopover" id="operations-info">
+                <property name="visible">0</property>
+                <property name="position">top</property>
+                <property name="child">
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Add and edit class operations according to UML syntax.
+
+  • &lt;tt&gt;call()&lt;/tt&gt;
+  • &lt;tt&gt;+ call(a: int[*], b: str): bool&lt;/tt&gt; (public, parameters)
+  • &lt;tt&gt;# call(a: int, b: str) # a note&lt;/tt&gt; (protected, with remark)
+
+Press &lt;b&gt;Enter&lt;/b&gt; to edit, &lt;b&gt;Backspace&lt;/b&gt;/&lt;b&gt;Delete&lt;/b&gt; to remove items.
+Use &lt;b&gt;-&lt;/b&gt;/&lt;b&gt;=&lt;/b&gt; to move items up or down.</property>
+                    <property name="use-markup">1</property>
+                    <style>
+                      <class name="info-popover"/>
+                    </style>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <style>
+              <class name="info"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkFrame">
+        <property name="child">
+          <object class="GtkColumnView" id="operations-list">
+            <property name="height-request">112</property>
+            <property name="focusable">1</property>
+            <style>
+              <class name="data-table"/>
+            </style>
+            <child>
+              <object class="GtkColumnViewColumn">
+                <property name="title" translatable="yes">Operations</property>
+                <property name="expand">1</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkColumnViewColumn">
+                <property name="title" translatable="yes">Abstract</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkColumnViewColumn">
+                <property name="title" translatable="yes">Static</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkEventControllerKey">
+                <signal name="key-pressed" handler="operations-key-pressed" />
+              </object>
+            </child>
+            <signal name="activate" handler="operations-activated" />
+          </object>
+        </property>
+      </object>
+    </child>
+    <style>
+      <class name="propertypage"/>
+    </style>
+  </object>
+
+  <object class="GtkBox" id="show-operations-editor">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">Show Operations</property>
+            <property name="halign">start</property>
+            <property name="hexpand">yes</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSwitch" id="show-operations">
+            <property name="focusable">1</property>
+            <signal name="notify::active" handler="show-operations-changed" swapped="no"/>
+          </object>
+        </child>
+      </object>
+    </child>
+    <style>
+      <class name="propertypage"/>
+    </style>
+  </object>
+
+  <object class="GtkBox" id="enumerations-editor">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">Enumeration Literals</property>
+            <property name="xalign">0</property>
+            <property name="hexpand">1</property>
+            <style>
+              <class name="title"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="enumerations-info-icon">
+            <property name="halign">end</property>
+            <property name="valign">end</property>
+            <property name="label" translatable="yes">ⓘ Help</property>
+
+            <child>
+              <object class="GtkPopover" id="enumerations-info">
+                <property name="position">top</property>
+                <property name="child">
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Add and edit enumeration literals according to UML syntax.
+
+  • &lt;tt&gt;enum&lt;/tt&gt;
+
+Press &lt;b&gt;Enter&lt;/b&gt; to edit, &lt;b&gt;Backspace&lt;/b&gt;/&lt;b&gt;Delete&lt;/b&gt; to remove items.
+Use &lt;b&gt;-&lt;/b&gt;/&lt;b&gt;=&lt;/b&gt; to move items up or down.</property>
+                    <property name="use-markup">1</property>
+                    <style>
+                      <class name="info-popover"/>
+                    </style>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <style>
+              <class name="info"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkFrame">
+        <property name="child">
+          <object class="GtkColumnView" id="enumerations-list">
+            <property name="height-request">112</property>
+            <property name="focusable">1</property>
+            <style>
+              <class name="data-table"/>
+            </style>
+            <child>
+              <object class="GtkColumnViewColumn">
+                <property name="title" translatable="yes">Enumeration Literals</property>
+                <property name="expand">1</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkEventControllerKey">
+                <signal name="key-pressed" handler="enumerations-key-pressed" />
+              </object>
+            </child>
+            <signal name="activate" handler="enumerations-activated" />
+          </object>
+        </property>
+      </object>
+    </child>
+    <style>
+      <class name="propertypage"/>
+    </style>
+  </object>
+
+  <object class="GtkBox" id="show-enumerations-editor">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">Show Enumeration Literals</property>
+            <property name="hexpand">yes</property>
+            <property name="halign">start</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSwitch" id="show-enumerations">
+            <property name="halign">center</property>
+            <property name="focusable">1</property>
+            <signal name="notify::active" handler="show-enumerations-changed" swapped="no"/>
+          </object>
+        </child>
+      </object>
+    </child>
+    <style>
+      <class name="propertypage"/>
+    </style>
+  </object>
+
+  <object class="GtkBox" id="component-editor">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">Indirectly Instantiated</property>
+            <property name="hexpand">yes</property>
+            <property name="halign">start</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSwitch" id="indirectly-instantiated">
+            <signal name="notify::active" handler="indirectly-instantiated-changed" swapped="no"/>
+          </object>
+        </child>
+      </object>
+    </child>
+    <style>
+      <class name="propertypage"/>
+    </style>
+  </object>
+</interface>

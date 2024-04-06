@@ -1,0 +1,47 @@
+name: 'Install Dependencies'
+description: 'Collects project metadata, installs Python, Poetry, and Gaphor'
+outputs:
+  version:
+    description: 'Build version with added dev reference for non-releases'
+    value: ${{ steps.meta.outputs.version }}
+inputs:
+  python-command:
+    description: 'Python command. Can be a version python$V or py -$V depending on the platform.'
+    required: false
+runs:
+  using: composite
+  steps:
+    - name: Install Poetry
+      run: |
+        ${{ inputs.python-command }} -m ensurepip
+        ${{ inputs.python-command }} -m pip install --constraint=.github/constraints.txt poetry
+      shell: bash
+    - name: Configure Poetry
+      run: poetry config virtualenvs.in-project true
+      shell: bash
+    - name: Collect Project Data
+      id: meta
+      run: .github/scripts/metadata.sh
+      shell: bash
+    - name: Install Python Dependencies
+      run: |
+        poetry lock --no-update
+        poetry install --no-interaction
+      shell: bash
+    - name: Windows specific overrides
+      if: runner.os == 'Windows'
+      run: |
+        poetry run pip install --force-reinstall (Resolve-Path C:\gtk-build\gtk\x64\release\PyGObject*.whl)
+        poetry run pip install --force-reinstall (Resolve-Path C:\gtk-build\gtk\x64\release\pycairo*.whl)
+      shell: pwsh
+    - name: Install settings schemas
+      run: poetry run gaphor install-schemas
+      shell: bash
+    - name: Compile all translations
+      if: github.event_name != 'release'
+      run: poetry run poe gettext-mo-all
+      shell: bash
+    - name: Compile release translations
+      if: github.event_name == 'release'
+      run: poetry run poe gettext-mo-release
+      shell: bash

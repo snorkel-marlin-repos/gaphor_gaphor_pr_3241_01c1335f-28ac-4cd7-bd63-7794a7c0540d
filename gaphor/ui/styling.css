@@ -1,0 +1,162 @@
+
+#toolbox expander {
+  border-top: 1px solid @unfocused_borders;
+  margin-top: 6px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+#toolbox expander:first-child {
+  border-top: none;
+  margin-top: 0;
+}
+
+#toolbox label {
+  font-weight: bold;
+}
+
+diagramview {
+  background: white;
+}
+
+.status-window box {
+  padding: 12px;
+}
+
+.dropdown-small {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+flowboxchild {
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.section-title {
+  font-weight: bold;
+}
+
+.greeter row {
+  padding: 6px 0 6px 6px;
+  min-width: 400px;
+}
+
+.greeter-selection {
+  margin-top: 18px;
+  margin-bottom: 12px;
+  border-spacing: 12px;
+}
+
+.greeter-selection > .title {
+  margin-top: 12px;
+}
+
+.propertypage {
+  margin-top: 6px;
+  border-spacing: 6px;
+}
+
+.propertypage box.horizontal:not(.linked) {
+  border-spacing: 6px;
+}
+
+.propertypage .title {
+  margin-top: 6px;
+}
+
+frame .internals-label,
+frame > textview {
+  padding: 6px;
+}
+
+row {
+  min-height: 24px;
+}
+
+.data-table checkbutton {
+  padding: 0px;
+}
+
+.data-table box checkbutton {
+  margin-right: 4px;
+ }
+
+.data-table .stereotype-value {
+  padding-left: 24px;
+}
+
+textfield text {
+  background-color: @theme_bg_color;
+  color: @theme_fg_color;
+  border: 1px solid @theme_bg_color;
+}
+
+textfield text selection {
+  background-color: alpha(@theme_selected_bg_color, 0.3);
+}
+
+.info {
+  border-radius: 16px;
+  font-size: small;
+  padding: 2px 6px;
+}
+
+.info:hover {
+  background-color: @shade_color;
+}
+
+.info-popover {
+  margin: 6px;
+}
+
+#model_browser treeexpander {
+  margin: 0 6px;
+}
+
+#model_browser .row {
+  border-top: 0 solid @shade_color;
+  transition: border 200ms;
+}
+
+#model_browser .move-element-above {
+  border-top-width: 12px;
+}
+
+#model_browser .move-element-above:drop(active) {
+  box-shadow: none;
+}
+
+tabbar > revealer > box,
+#model_browser listview {
+  background-color: transparent;
+}
+
+.pseudo-sidebar-pane {
+  background-color: @sidebar_bg_color;
+  color: @sidebar_fg_color;
+}
+
+#element_editor .title {
+  font-weight: bold;
+}
+
+#element_editor {
+  min-width: 270px;
+}
+
+#toolbox > viewport > box {
+  margin: 6px;
+}
+
+flowboxchild:hover {
+  background-color: @shade_color;
+}
+
+flowboxchild:active {
+  background-color: alpha(@shade_color, 2);
+}
+
+.mono {
+  font-family: monospace;
+}

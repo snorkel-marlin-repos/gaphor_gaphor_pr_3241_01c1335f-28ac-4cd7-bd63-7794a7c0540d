@@ -1,0 +1,81 @@
+{
+  "app-id": "org.gaphor.Gaphor.Devel",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "45",
+  "tags": [
+    "devel",
+    "development",
+    "nightly"
+  ],
+  "sdk": "org.gnome.Sdk",
+  "command": "gaphor",
+  "build-options": {
+    "build-args": [
+      "--share=network"
+    ],
+    "test-args": [
+      "--socket=wayland"
+    ]
+  },
+  "finish-args": [
+    "--socket=fallback-x11",
+    "--share=ipc",
+    "--socket=wayland",
+    "--device=dri",
+    "--socket=session-bus"
+  ],
+  "modules": [
+    {
+      "name": "fake-graphviz",
+      "buildsystem": "simple",
+      "build-commands": [
+        "mkdir -p ${FLATPAK_DEST}/bin",
+        "cp dot ${FLATPAK_DEST}/bin/dot",
+        "chmod +x ${FLATPAK_DEST}/bin/dot"
+      ],
+      "sources": [
+        {
+          "type": "file",
+          "path": "_packaging/flatpak-devel/dot"
+        }
+       ]
+    },
+    {
+      "name": "install",
+      "buildsystem": "simple",
+      "build-commands": [
+        "pip3 install --prefix=${FLATPAK_DEST} poetry",
+        "${FLATPAK_DEST}/bin/poetry export --output=requirements.txt",
+        "pip3 install --no-cache-dir --ignore-installed --prefix=${FLATPAK_DEST} -r requirements.txt"
+      ],
+      "sources": [
+        {
+          "type": "file",
+          "path": "pyproject.toml"
+        },
+        {
+          "type": "file",
+          "path": "poetry.lock"
+        }
+       ]
+    },
+    {
+      "name": "gaphor",
+      "buildsystem": "simple",
+      "build-commands": [
+        "pip3 install --no-cache-dir --ignore-installed --prefix=${FLATPAK_DEST} .",
+        "gaphor install-schemas --schemas-dir=/app/share/glib-2.0/schemas"
+      ],
+      "sources": [
+        {
+          "type": "dir",
+          "path": "."
+        }
+      ],
+      "run-tests": true,
+      "test-commands": [
+        "gaphor self-test"
+      ]
+    }
+  ]
+}

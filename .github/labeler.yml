@@ -1,0 +1,19 @@
+packaging:
+  - changed-files:
+    - any-glob-to-any-file: '_packaging/**/*'
+translation:
+  - changed-files:
+    - any-glob-to-any-file: 'po/*'
+    - any-glob-to-any-file: 'docs/locale/**/*'
+documentation:
+  - changed-files:
+    - any-glob-to-any-file: 'docs/*.md'
+    - any-glob-to-any-file: 'docs/*.rst'
+    - any-glob-to-any-file: '*.md'
+python:
+  - changed-files:
+    - any-glob-to-any-file: 'gaphor/**/*.py'
+skip-changelog:
+  - changed-files:
+    - any-glob-to-any-file: '.pre-commit-config.yaml'
+    - any-glob-to-any-file: '.all-contributorsrc'

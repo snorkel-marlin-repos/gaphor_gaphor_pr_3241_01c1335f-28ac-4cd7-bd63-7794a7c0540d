@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gaphor xmlns="http://gaphor.sourceforge.net/model" version="3.0" gaphor-version="2.24.0">
+<StyleSheet id="58d6989a-66f8-11ec-b4c8-0456e5e540ed"/>
+<Package id="58d6c2e8-66f8-11ec-b4c8-0456e5e540ed">
+<name>
+<val>Model Name Here</val>
+</name>
+<nestedPackage>
+<reflist>
+<ref refid="39979364-71b9-11ec-8ef5-f47b099bf663"/>
+<ref refid="44e9b2b0-71b9-11ec-8ef5-f47b099bf663"/>
+</reflist>
+</nestedPackage>
+</Package>
+<Package id="39979364-71b9-11ec-8ef5-f47b099bf663">
+<name>
+<val>Fault Tree Analysis</val>
+</name>
+<ownedDiagram>
+<reflist>
+<ref refid="5f0f98da-71b9-11ec-8ef5-f47b099bf663"/>
+</reflist>
+</ownedDiagram>
+<package>
+<ref refid="58d6c2e8-66f8-11ec-b4c8-0456e5e540ed"/>
+</package>
+</Package>
+<Package id="44e9b2b0-71b9-11ec-8ef5-f47b099bf663">
+<name>
+<val>STPA</val>
+</name>
+<ownedDiagram>
+<reflist>
+<ref refid="4b7f144e-71b9-11ec-8ef5-f47b099bf663"/>
+<ref refid="cf8db4b4-71bb-11ec-8ef5-f47b099bf663"/>
+<ref refid="ad9953da-71bc-11ec-8ef5-f47b099bf663"/>
+<ref refid="3c97c254-71bf-11ec-8ef5-f47b099bf663"/>
+<ref refid="82625f60-71bf-11ec-8ef5-f47b099bf663"/>
+<ref refid="9579ce80-71bf-11ec-8ef5-f47b099bf663"/>
+<ref refid="a4faa9e2-71bf-11ec-8ef5-f47b099bf663"/>
+</reflist>
+</ownedDiagram>
+<package>
+<ref refid="58d6c2e8-66f8-11ec-b4c8-0456e5e540ed"/>
+</package>
+</Package>
+<Diagram id="4b7f144e-71b9-11ec-8ef5-f47b099bf663">
+<diagramType>
+<val>stpa</val>
+</diagramType>
+<element>
+<ref refid="44e9b2b0-71b9-11ec-8ef5-f47b099bf663"/>
+</element>
+<name>
+<val>Loss Definition</val>
+</name>
+</Diagram>
+<Diagram id="5f0f98da-71b9-11ec-8ef5-f47b099bf663">
+<diagramType>
+<val>fta</val>
+</diagramType>
+<element>
+<ref refid="39979364-71b9-11ec-8ef5-f47b099bf663"/>
+</element>
+<name>
+<val>FTA</val>
+</name>
+<ownedPresentation>
+<reflist>
+<ref refid="2ab5a524-71ba-11ec-8ef5-f47b099bf663"/>
+</reflist>
+</ownedPresentation>
+</Diagram>
+<Comment id="2ab59890-71ba-11ec-8ef5-f47b099bf663">
+<body>
+<val>The fault tree analysis shows which causes for the failure of a system have been considered.</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="2ab5a524-71ba-11ec-8ef5-f47b099bf663"/>
+</reflist>
+</presentation>
+</Comment>
+<CommentItem id="2ab5a524-71ba-11ec-8ef5-f47b099bf663">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 39.91015625, 73.5)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>204.0</val>
+</width>
+<height>
+<val>78.0</val>
+</height>
+<diagram>
+<ref refid="5f0f98da-71b9-11ec-8ef5-f47b099bf663"/>
+</diagram>
+<subject>
+<ref refid="2ab59890-71ba-11ec-8ef5-f47b099bf663"/>
+</subject>
+</CommentItem>
+<Diagram id="cf8db4b4-71bb-11ec-8ef5-f47b099bf663">
+<diagramType>
+<val>stpa</val>
+</diagramType>
+<element>
+<ref refid="44e9b2b0-71b9-11ec-8ef5-f47b099bf663"/>
+</element>
+<name>
+<val>Hazard Definition</val>
+</name>
+</Diagram>
+<Diagram id="ad9953da-71bc-11ec-8ef5-f47b099bf663">
+<diagramType>
+<val>ibd</val>
+</diagramType>
+<element>
+<ref refid="44e9b2b0-71b9-11ec-8ef5-f47b099bf663"/>
+</element>
+<name>
+<val>Mapping of Losses and Hazards</val>
+</name>
+</Diagram>
+<Diagram id="3c97c254-71bf-11ec-8ef5-f47b099bf663">
+<diagramType>
+<val>stpa</val>
+</diagramType>
+<element>
+<ref refid="44e9b2b0-71b9-11ec-8ef5-f47b099bf663"/>
+</element>
+<name>
+<val>Operational Situations</val>
+</name>
+</Diagram>
+<Diagram id="82625f60-71bf-11ec-8ef5-f47b099bf663">
+<diagramType>
+<val>stpa</val>
+</diagramType>
+<element>
+<ref refid="44e9b2b0-71b9-11ec-8ef5-f47b099bf663"/>
+</element>
+<name>
+<val>Context of UCAs</val>
+</name>
+</Diagram>
+<Diagram id="9579ce80-71bf-11ec-8ef5-f47b099bf663">
+<diagramType>
+<val>stpa</val>
+</diagramType>
+<element>
+<ref refid="44e9b2b0-71b9-11ec-8ef5-f47b099bf663"/>
+</element>
+<name>
+<val>Situational Context</val>
+</name>
+</Diagram>
+<Diagram id="a4faa9e2-71bf-11ec-8ef5-f47b099bf663">
+<diagramType>
+<val>stpa</val>
+</diagramType>
+<element>
+<ref refid="44e9b2b0-71b9-11ec-8ef5-f47b099bf663"/>
+</element>
+<name>
+<val>Situation Hierarchy</val>
+</name>
+</Diagram>
+</gaphor>

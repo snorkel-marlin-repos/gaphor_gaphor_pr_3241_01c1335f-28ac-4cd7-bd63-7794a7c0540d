@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gaphor xmlns="http://gaphor.sourceforge.net/model" version="3.0" gaphor-version="2.9.2">
+<Package id="DCE:658E43CC-3A1D-11DC-8B61-000D93868322">
+<name>
+<val>New model</val>
+</name>
+<ownedDiagram>
+<reflist>
+<ref refid="DCE:658E851A-3A1D-11DC-8B61-000D93868322"/>
+</reflist>
+</ownedDiagram>
+</Package>
+<Diagram id="DCE:658E851A-3A1D-11DC-8B61-000D93868322">
+<element>
+<ref refid="DCE:658E43CC-3A1D-11DC-8B61-000D93868322"/>
+</element>
+<name>
+<val>main</val>
+</name>
+<ownedPresentation>
+<reflist>
+<ref refid="DCE:680E2142-3A1D-11DC-8B61-000D93868322"/>
+<ref refid="DCE:68ECCFB2-3A1D-11DC-8B61-000D93868322"/>
+<ref refid="DCE:6719E9C4-3A1D-11DC-8B61-000D93868322"/>
+</reflist>
+</ownedPresentation>
+</Diagram>
+<Line id="DCE:6719E9C4-3A1D-11DC-8B61-000D93868322">
+<diagram>
+<ref refid="DCE:658E851A-3A1D-11DC-8B61-000D93868322"/>
+</diagram>
+<horizontal>
+<val>0</val>
+</horizontal>
+<orthogonal>
+<val>0</val>
+</orthogonal>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 336.0, 113.0)</val>
+</matrix>
+<points>
+<val>[(0.0, 0.0), (93.0, -2.0), (87.0, 83.0)]</val>
+</points>
+</Line>
+<Box id="DCE:680E2142-3A1D-11DC-8B61-000D93868322">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 214.0, 119.0)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>100.0</val>
+</width>
+<height>
+<val>71.0</val>
+</height>
+<diagram>
+<ref refid="DCE:658E851A-3A1D-11DC-8B61-000D93868322"/>
+</diagram>
+</Box>
+<Ellipse id="DCE:68ECCFB2-3A1D-11DC-8B61-000D93868322">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 332.0, 137.0)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>100.0</val>
+</width>
+<height>
+<val>60.0</val>
+</height>
+<diagram>
+<ref refid="DCE:658E851A-3A1D-11DC-8B61-000D93868322"/>
+</diagram>
+</Ellipse>
+<StyleSheet id="d8c43f36-c545-11ea-9af2-f5ca580d221e">
+<styleSheet>
+<val>diagram {
+ background-color: white;
+ line-style: normal;
+ /* line-style: sloppy 0.3; */
+}
+
+diagram * {
+ background-color: transparent;
+ color: black;
+ font-family: sans;
+ font-size: 14;
+ highlight-color: rgba(0, 0, 255, 0.4);
+ line-width: 2;
+ padding: 0;
+}
+</val>
+</styleSheet>
+</StyleSheet>
+</gaphor>

@@ -1,0 +1,112 @@
+comment
+  This is a file with custom definitions for Gaphor's data model.
+
+  Parts are separated by '%%' (no training spaces) on a line.
+  Comment parts start with 'comment' on the line below the percentage
+  symbols, 'override' is used to define a overridden variable.
+
+  Overrides may in their turn derive from other properties, in that case
+  the 'derives' keyword may be used. It's only useful to declare the
+  associations (and other derived properties) an overridden value depends
+  on, since attributes have been written anyway. Note that no smart things
+  wrt inheritance is done.
+%%
+header
+from typing import Callable
+
+%%
+override MultiplicityElement.lower(MultiplicityElement.lowerValue): _attribute[str]
+MultiplicityElement.lower = MultiplicityElement.lowerValue
+%%
+override MultiplicityElement.upper(MultiplicityElement.upperValue): _attribute[str]
+MultiplicityElement.upper = MultiplicityElement.upperValue
+%%
+override Association.endType(Association.memberEnd, Property.type): derived[Type]
+
+# References the classifiers that are used as types of the ends of the
+# association.
+
+Association.endType = derived('endType', Type, 0, '*', lambda self: [end.type for end in self.memberEnd if end])
+
+%%
+override Class.extension(Extension.metaclass): property
+# See https://www.omg.org/spec/UML/2.5/PDF, section 11.8.3.6, page 219
+# It defines `Extension.allInstances()`, which basically means we have to query the element factory.
+
+# TODO: use those as soon as Extension.metaclass can be used.
+#Class.extension = derived('extension', Extension, 0, '*', class_extension, Extension.metaclass)
+
+Class.extension = property(lambda self: self.model.lselect(lambda e: e.isKindOf(Extension) and self is e.metaclass), doc=\
+"""References the Extensions that specify additional properties of the
+metaclass. The property is derived from the extensions whose memberEnds
+are typed by the Class.""")
+%%
+override Extension.metaclass(Extension.ownedEnd, Association.memberEnd): property
+# defined in umloverrides.py
+%%
+override Classifier.inheritedMember: derivedunion[NamedElement]
+Classifier.inheritedMember = derivedunion('inheritedMember', NamedElement, 0, '*')
+%%
+override Classifier.general(Generalization.general): derived[Classifier]
+Classifier.general = derived('general', Classifier, 0, '*', lambda self: [g.general for g in self.generalization])
+%%
+override Class.superClass: derived[Classifier]
+Class.superClass = Classifier.general
+%%
+override Namespace.importedMember: derivedunion[PackageableElement]
+Namespace.importedMember = derivedunion('importedMember', PackageableElement, 0, '*')
+%%
+override Property.opposite(Property.association, Association.memberEnd): relation_one[Property | None]
+# defined in umloverrides.py
+%%
+override Property.isComposite(Property.aggregation): derived[bool]
+Property.isComposite = derived('isComposite', bool, 0, 1, lambda obj: [obj.aggregation == 'composite'])
+%%
+override Constraint.context: derivedunion[Namespace]
+Constraint.context = derivedunion('context', Namespace, 0, 1)
+%%
+override NamedElement.qualifiedName: derived[list[str]]
+
+from gaphor.core.modeling import qualifiedName
+
+NamedElement.qualifiedName = derived(
+    "qualifiedName",
+    list[str],
+    0,
+    1,
+    lambda obj: [qualifiedName(obj)],
+)
+%%
+override Property.navigability(Property.opposite, Property.association): derived[bool | None]
+# defined in umloverrides.py
+%%
+override Operation.type: derivedunion[DataType]
+Operation.type = derivedunion('type', DataType, 0, 1)
+%%
+override Lifeline.parse: Callable[[Lifeline, str], None]
+# defined in umloverrides.py
+%%
+override Lifeline.render: Callable[[Lifeline], str]
+# defined in umloverrides.py
+%%
+override Component.provided: property
+# defined in umloverrides.py
+%%
+override Component.required: property
+# defined in umloverrides.py
+%%
+override Message.messageKind: property
+# defined in umloverrides.py
+%%
+override StructuredClassifier.part: property
+StructuredClassifier.part = property(lambda self: tuple(a for a in self.ownedAttribute if a.isComposite), doc="""
+    Properties owned by a classifier by composition.
+""")
+%%
+override ExecutionSpecification.start(ExecutionSpecification.executionOccurrenceSpecification): relation_one[ExecutionOccurrenceSpecification]
+ExecutionSpecification.start = derived('start', OccurrenceSpecification, 0, 1,
+    lambda obj: [eos for i, eos in enumerate(obj.executionOccurrenceSpecification) if i == 0])
+%%
+override ExecutionSpecification.finish(ExecutionSpecification.executionOccurrenceSpecification): relation_one[ExecutionOccurrenceSpecification]
+ExecutionSpecification.finish = derived('finish', OccurrenceSpecification, 0, 1,
+    lambda obj: [eos for i, eos in enumerate(obj.executionOccurrenceSpecification) if i == 1])
